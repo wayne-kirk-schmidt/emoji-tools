@@ -1,2 +1,0 @@
-| "{{choice}}" as input 
-| if ( ( input contains "red" ) , "\ud83d\u1f7e5", "UNSET" ) as result
