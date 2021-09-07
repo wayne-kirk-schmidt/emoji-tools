@@ -3,6 +3,13 @@ Emoji Tools
 
 Emoji Tools are designed to help convert code points in emojis into something you can display.
 
+It builds on research Mat Gritt has on working out the conversion methods from code points to Unicode.
+Using the methods, any large sequence of emoji code points can be converted
+
+The reference for the Emojis currently is:
+
+https://unicode.org/emoji/charts
+
 Installing the Scripts
 =======================
 
@@ -55,6 +62,12 @@ To Do List:
 
 * Add output into CSV and other formats
 
+Authors
+=======
+
+* Mat Gritt (mat@sumologic.com)
+* Wayne Kirk Schmidt (wschmidt@sumologic.com)
+
 License
 =======
 
@@ -78,4 +91,26 @@ Support
 
 Feel free to e-mail me with issues to: wayne.kirk.schmidt@gmail.com
 I will provide "best effort" fixes and extend the scripts.
+License
+=======
 
+Copyright 2021 Wayne Kirk Schmidt
+
+Licensed under the MIT License (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    license-name   MIT
+    license-url    https://opensource.org/licenses/MIT
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Support
+=======
+
+Feel free to e-mail me with issues to: wschmidt@sumologic.com
+I will provide "best effort" fixes and extend the scripts.
