@@ -57,6 +57,20 @@ The scripts are organized into sub directories:
 
     2. ./doc - this has refernce information including sample emojis 
 
+Examples
+========
+
+            ./bin/emoji_process.py https://unicode.org/emoji/charts/full-emoji-list.html | egrep -i wales   
+# REFERENCE # flag_wales # U+1F3F4 U+E0067 U+E0062 U+E0077 U+E006C U+E0073 U+E007F
+# CONVERTED # flag_wales # \ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc77\udb40\udc6c\udb40\udc73\udb40\udc7f
+
+            ./bin/emoji_process.py https://unicode.org/emoji/charts/full-emoji-list.html | wc -l
+1816
+
+            ./bin/emoji_translate.py flag_wales U+1F3F4 U+E0067 U+E0062 U+E0077 U+E006C U+E0073 U+E007F
+NAME: flag_wales	 CODELIST: ['U+1F3F4', 'U+E0067', 'U+E0062', 'U+E0077', 'U+E006C', 'U+E0073', 'U+E007F']
+NAME: flag_wales	 CONVERTED: \ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc77\udb40\udc6c\udb40\udc73\udb40\udc7f
+
 To Do List:
 ===========
 
