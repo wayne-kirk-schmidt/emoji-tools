@@ -1,0 +1,24 @@
+Reference:
+
+https://unicode.org/emoji/charts/emoji-list.html
+https://unicode.org/emoji/charts/full-emoji-list.html
+https://unicode.org/Public/emoji/13.1/
+
+Samples:
+
+🟥 Red Square				U+1F7E5
+🟧 Orange Square			U+1F7E7
+🟨 Yellow Square			U+1F7E8
+🟩 Green Square				U+1F7E9
+🟦 Blue Square				U+1F7E6
+🟪 Purple Square			U+1F7EA
+🟫 Brown Square				U+1F7EB
+⬛ Black Large Square			U+2B1B
+⬜ White Large Square			U+2B1C
+◼️ Black Medium Square			U+25FC, U+FE0F
+◻️ White Medium Square			U+25FB, U+FE0F
+◾ Black Medium-Small Square		U+25FE
+◽ White Medium-Small Square		U+25FD
+▪️ Black Small Square			U+25AA, U+FE0F
+▫️ White Small Square			U+25AB, U+FE0F
+
