@@ -3,7 +3,6 @@
 """
 Downloads and processes the emoji list
 """
-### https://unicode.org/emoji/charts/full-emoji-list.html
 
 import os
 import sys
@@ -12,8 +11,13 @@ import string
 import requests
 import bs4
 
-targeturl = sys.argv[1]
+
+### targeturl = sys.argv[1]
+
+targeturl = 'https://unicode.org/emoji/charts/full-emoji-list.html'
+
 htmlfile = os.path.basename(urllib.parse.urlsplit(targeturl).path)
+
 targetfile = os.path.join( '/var/tmp', htmlfile )
 
 def download_html_file(emojiurl, emojifile):
@@ -38,8 +42,7 @@ def process_emoji(ename, codelist):
     separator = ''
     codestring = separator.join(convertlist)
 
-    print('# REFERENCE # {} # {}'.format(ename, codelist))
-    print('# CONVERTED # {} # {}'.format(ename, codestring))
+    print('\"{}\",\"{}\"'.format(ename, codestring))
 
 def convertcode(ecode):
     """
@@ -48,14 +51,14 @@ def convertcode(ecode):
 
     ecode = ecode.replace('U+','')
 
-    lead = '\\' + 'u' + ecode
+    lead = '\\\\' + 'u' + ecode
 
     if len(ecode) != 4:
         offset = (len(bin(int(ecode,16))) - 10 )
         lead = str(hex(int(str((bin(int(ecode,16)))[2:offset]),2) + 55232))
-        lead = lead.replace('0x', "\\u")
+        lead = lead.replace('0x', "\\\\u")
         tail = str(hex( (int(ecode, 16) & 1023 ) + 56320 ))
-        tail = tail.replace('0x', "\\u")
+        tail = tail.replace('0x', "\\\\u")
         conversion = lead + tail
     else:
         conversion = lead
@@ -66,6 +69,7 @@ def process_html_file(emojifile):
     """
     Parse the html file and extract the name and code point
     """
+    print('{},{}'.format("emojiname", "emojicode"))
     with open(emojifile) as emoji_html:
         soup = bs4.BeautifulSoup(emoji_html, "html.parser")
         for row in soup.find_all('tr'):

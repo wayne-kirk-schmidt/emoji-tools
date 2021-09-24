@@ -1,0 +1,20 @@
+{
+    "description": "Emoji Lookup Table based on Emoji Name",
+    "fields": [
+        {
+            "fieldName": "emojiname",
+            "fieldType": "string"
+        },
+        {
+            "fieldName": "emojicode",
+            "fieldType": "string"
+        }
+    ],
+    "primaryKeys": [
+        "emojiname"
+    ],
+    "ttl": 100,
+    "sizeLimitAction": "DeleteOldData",
+    "name": "emojilookup",
+    "parentFolderId": "REPLACEME"
+}
