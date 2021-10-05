@@ -69,7 +69,7 @@ def process_html_file(emojifile):
     """
     Parse the html file and extract the name and code point
     """
-    print('{},{}'.format("emojiname", "emojicode"))
+    print('\"{}\",\"{}\"'.format("emojiname", "emojicode"))
     with open(emojifile) as emoji_html:
         soup = bs4.BeautifulSoup(emoji_html, "html.parser")
         for row in soup.find_all('tr'):
