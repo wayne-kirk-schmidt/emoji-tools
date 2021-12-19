@@ -30,13 +30,20 @@ def download_html_file(emojiurl, emojifile):
     with open(emojifile, 'w') as outputfile:
         outputfile.write(htmltext)
 
+def expandcode(codestring: str):
+    """
+    Process the target name and code string item
+    """
+    return chr(int(codestring.lstrip("U+").zfill(8), 16))
+
 def process_emoji(ename, codelist):
     """
     Process the target name and code list
     """
     convertlist = list()
     for codeitem in codelist.split():
-        converted = convertcode(codeitem)
+        ### converted = convertcode(codeitem)
+        converted = expandcode(codeitem)
         convertlist.append(converted)
 
     separator = ''
