@@ -78,9 +78,35 @@ To Do List:
 
 * Add output into CSV and other formats
 
-Authors
+License
 =======
 
+Copyright 2022 
+
 * Mat Gritt (mat@sumologic.com)
+
 * Wayne Kirk Schmidt (wschmidt@sumologic.com)
 
+Licensed under the Apache 2.0 License (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    license-name   Apache 2.0 
+    license-url    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Support
+=======
+
+Feel free to e-mail me with issues to: 
+
++   wschmidt@sumologic.com
+
++   wayne.kirk.schmnidt@gmail.com
+
+I will provide "best effort" fixes and extend the scripts.
