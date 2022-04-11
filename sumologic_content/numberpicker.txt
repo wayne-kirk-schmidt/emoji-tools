@@ -1,0 +1,66 @@
+//cat path://"/Library/Users/wschmidt@sumologic.com/lookupfiles/emojilookup"
+//| where emojiname contains "square"
+//| concat ( "\"", emojicode, "\"") as emojicodequoted
+*
+| limit 1
+| "\ud83d\udfe9" as gs
+| "\ud83d\udfe5" as rs
+| "\ud83d\udfe8" as ys
+| "\ud83d\udfe7" as os
+| "\u2B1B" as bs
+| "\u2B1C" as ws
+//
+| {{mychoice}} as myfuel
+| 10 - myfuel as myused
+//
+| "" as fuel00
+| rs as fuel01
+| concat ( rs, rs ) as fuel02
+| concat ( rs, rs, rs ) as fuel03
+| concat ( rs, rs, rs, rs ) as fuel04
+| concat ( rs, rs, rs, rs, rs) as fuel05
+| concat ( os, os, os, os, os, os ) as fuel06
+| concat ( os, os, os, os, os, os, os ) as fuel07
+| concat ( gs, gs, gs, gs, gs, gs, gs, gs ) as fuel08
+| concat ( gs, gs, gs, gs, gs, gs, gs, gs, gs ) as fuel09
+| concat ( gs, gs, gs, gs, gs, gs, gs, gs, gs, gs ) as fuel10
+//
+| "" as used00
+| ws as used01
+| concat ( ws, ws ) as used02
+| concat ( ws, ws, ws ) as used03
+| concat ( ws, ws, ws, ws ) as used04
+| concat ( ws, ws, ws, ws, ws) as used05
+| concat ( ws, ws, ws, ws, ws, ws ) as used06
+| concat ( ws, ws, ws, ws, ws, ws, ws ) as used07
+| concat ( ws, ws, ws, ws, ws, ws, ws, ws ) as used08
+| concat ( ws, ws, ws, ws, ws, ws, ws, ws, ws ) as used09
+| concat ( ws, ws, ws, ws, ws, ws, ws, ws, ws, ws ) as used10
+//
+| if ( myfuel = 0,  fuel00, fuel ) as fuel
+| if ( myfuel = 1,  fuel01, fuel ) as fuel
+| if ( myfuel = 2,  fuel02, fuel ) as fuel
+| if ( myfuel = 3,  fuel03, fuel ) as fuel
+| if ( myfuel = 4,  fuel04, fuel ) as fuel
+| if ( myfuel = 5,  fuel05, fuel ) as fuel
+| if ( myfuel = 6,  fuel06, fuel ) as fuel
+| if ( myfuel = 7,  fuel07, fuel ) as fuel
+| if ( myfuel = 8,  fuel08, fuel ) as fuel
+| if ( myfuel = 9,  fuel09, fuel ) as fuel
+| if ( myfuel = 10, fuel10, fuel ) as fuel
+//
+| if ( myused = 0,  used00, used ) as used
+| if ( myused = 1,  used01, used ) as used
+| if ( myused = 2,  used02, used ) as used
+| if ( myused = 3,  used03, used ) as used
+| if ( myused = 4,  used04, used ) as used
+| if ( myused = 5,  used05, used ) as used
+| if ( myused = 6,  used06, used ) as used
+| if ( myused = 7,  used07, used ) as used
+| if ( myused = 8,  used08, used ) as used
+| if ( myused = 9,  used09, used ) as used
+| if ( myused = 10, used10, used ) as used
+//
+| concat (fuel, used) as fueltank
+| count by fueltank
+| fields - _count
