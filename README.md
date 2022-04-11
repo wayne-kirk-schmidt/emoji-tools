@@ -55,7 +55,9 @@ The scripts are organized into sub directories:
             ./bin/emoji_translate.py - translates a given emoji code point
             ./bin/emoji_process.py - downloads and translates the emoji file
 
-    2. ./doc - this has refernce information including sample emojis 
+            ./lambda/lambda_function.py - this combines all of the functions into one script
+
+    2. ./doc - this has reference information including sample emojis 
 
 Examples
 ========

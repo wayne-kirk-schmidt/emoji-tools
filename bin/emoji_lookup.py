@@ -141,7 +141,7 @@ def run_sumo_cmdlet(source):
         lookupdirid = result['id']
 
     if ARGS.verbose > 3:
-        print('{} - {}'.format(lookupdirid, lookupdirname))
+        print('LookupFolder: {} - {}'.format(lookupdirid, lookupdirname))
 
     if createlookup == 'yes':
         result = source.create_lookup('emojilookup', lookupdirid)
@@ -149,13 +149,17 @@ def run_sumo_cmdlet(source):
         lookupfilename = result['name']
 
     if ARGS.verbose > 3:
-        print('{} - {}'.format(lookupfileid, lookupfilename))
+        print('LookupFile: {} - {}'.format(lookupfileid, lookupfilename))
 
-    if createlookup == 'yes':
-        source.session.headers = None
-        result = source.populate_lookup(lookupfileid, SUMO_CSV)
+    if createlookup != 'yes':
+        result = source.truncate_lookup(lookupfileid)
         if ARGS.verbose > 3:
-            print('{} - {}'.format(result['id'], SUMO_CSV))
+            print('Truncating: {} - {}'.format(result['id'], lookupfileid))
+
+    source.session.headers = None
+    result = source.populate_lookup(lookupfileid, SUMO_CSV)
+    if ARGS.verbose > 3:
+        print('Populating: {} - {}'.format(result['id'], SUMO_CSV))
 
 class SumoApiClient():
     """
@@ -260,6 +264,15 @@ class SumoApiClient():
 
         url = '/v1/lookupTables'
         body = self.post(url, jsonpayload, headers=headers).text
+        results = json.loads(body)
+        return results
+
+    def truncate_lookup(self, lookup_id):
+        """
+        truncates a lookup file
+        """
+        url = '/v1/lookupTables/' + str(lookup_id) + '/truncate'
+        body = self.post(url, lookup_id).text
         results = json.loads(body)
         return results
 

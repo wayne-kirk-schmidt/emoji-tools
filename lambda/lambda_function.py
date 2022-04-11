@@ -116,7 +116,7 @@ def process_html_file(emojifile):
     """
     Parse the html file and extract the name and code point
     """
-    CSV_LIST.append( '\"emojiname\"' + ',' + '\""emojicode\"' )
+    CSV_LIST.append( '\"emojiname\"' + ',' + '\"emojicode\"' )
     with open(emojifile) as emoji_html:
         soup = bs4.BeautifulSoup(emoji_html, "html.parser")
         for row in soup.find_all('tr'):
@@ -171,7 +171,7 @@ def run_sumo_cmdlet(source):
         lookupdirid = result['id']
 
     if VERBOSE > 3:
-        print('{} - {}'.format(lookupdirid, lookupdirname))
+        print('LookupFolder: {} - {}'.format(lookupdirid, lookupdirname))
 
     if createlookup == 'yes':
         result = source.create_lookup('emojilookup', lookupdirid)
@@ -179,14 +179,17 @@ def run_sumo_cmdlet(source):
         lookupfilename = result['name']
 
     if VERBOSE > 3:
-        print('{} - {}'.format(lookupfileid, lookupfilename))
+        print('LookupFile: {} - {}'.format(lookupfileid, lookupfilename))
 
-    if createlookup == 'yes':
-        source.session.headers = None
-        result = source.populate_lookup(lookupfileid, CSV_FILE)
+    if createlookup != 'yes':
+        result = source.truncate_lookup(lookupfileid)
         if VERBOSE > 3:
-            print('{} - {}'.format(result['id'], CSV_FILE))
+            print('Truncating: {} - {}'.format(result['id'], lookupfileid))
 
+    source.session.headers = None
+    result = source.populate_lookup(lookupfileid, CSV_FILE)
+    if VERBOSE > 3:
+        print('Populating: {} - {}'.format(result['id'], CSV_FILE))
 
 class SumoApiClient():
     """
@@ -288,6 +291,15 @@ class SumoApiClient():
 
         url = '/v1/lookupTables'
         body = self.post(url, jsonpayload, headers=headers).text
+        results = json.loads(body)
+        return results
+
+    def truncate_lookup(self, lookup_id):
+        """
+        truncates a lookup file
+        """
+        url = '/v1/lookupTables/' + str(lookup_id) + '/truncate'
+        body = self.post(url, lookup_id).text
         results = json.loads(body)
         return results
 

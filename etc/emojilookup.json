@@ -13,7 +13,7 @@
     "primaryKeys": [
         "emojiname"
     ],
-    "ttl": 100,
+    "ttl": 5000,
     "sizeLimitAction": "DeleteOldData",
     "name": "emojilookup",
     "parentFolderId": "REPLACEME"
