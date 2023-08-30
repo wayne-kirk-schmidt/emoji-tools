@@ -4,7 +4,9 @@ Converts an emoji into unicode string for display
 """
 
 import sys
+
 ename=sys.argv[1]
+
 ecodelist=sys.argv[2:]
 
 convertlist = list()

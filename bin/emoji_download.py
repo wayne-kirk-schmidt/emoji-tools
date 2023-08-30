@@ -10,7 +10,10 @@ import sys
 import urllib.parse
 import requests
 
-targeturl = sys.argv[1]
+### targeturl = sys.argv[1]
+
+targeturl = 'https://unicode.org/emoji/charts/full-emoji-list.html'
+
 htmlfile = os.path.basename(urllib.parse.urlsplit(targeturl).path)
 targetfile = os.path.join( '/var/tmp', htmlfile )
 

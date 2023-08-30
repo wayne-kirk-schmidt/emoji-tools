@@ -3,7 +3,8 @@ Emoji Tools
 
 Emoji Tools are designed to help convert code points in emojis into something you can display.
 
-It builds on research Mat Gritt has on working out the conversion methods from code points to Unicode.
+It builds on research both Mat Gritt and I have done on conversion methods from code points to Unicode.
+
 Using the methods, any large sequence of emoji code points can be converted
 
 The reference for the Emojis currently is:
@@ -14,6 +15,7 @@ Installing the Scripts
 =======================
 
 The scripts are designed to be used within a batch script or DevOPs tool such as Chef or Ansible.
+
 Each script is written in python3, and a list of python modules is provided to aid people using a pip install.
 
 You will need to use Python 3.6 or higher and the modules listed in the dependency section.  
@@ -87,7 +89,7 @@ Copyright 2022
 
 * Mat Gritt (mat@sumologic.com)
 
-* Wayne Kirk Schmidt (wschmidt@sumologic.com)
+* Wayne Kirk Schmidt (wayne.kirk.schmidt@gmail.com)
 
 Licensed under the Apache 2.0 License (the "License");
 you may not use this file except in compliance with the License.
@@ -106,8 +108,6 @@ Support
 =======
 
 Feel free to e-mail me with issues to: 
-
-+   wschmidt@sumologic.com
 
 +   wayne.kirk.schmnidt@gmail.com
 
