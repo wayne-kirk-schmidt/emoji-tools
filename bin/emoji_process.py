@@ -1,34 +1,23 @@
 #!/usr/bin/env python3
 
+# pylint: disable=C0209
+
 """
 Downloads and processes the emoji list
 """
 
 import os
-import sys
 import urllib.parse
 import string
 import requests
 import bs4
 
 
-### targeturl = sys.argv[1]
+TARGETURL = 'https://unicode.org/emoji/charts/full-emoji-list.html'
 
-targeturl = 'https://unicode.org/emoji/charts/full-emoji-list.html'
+HTMLFILE = os.path.basename(urllib.parse.urlsplit(TARGETURL).path)
 
-htmlfile = os.path.basename(urllib.parse.urlsplit(targeturl).path)
-
-targetfile = os.path.join( '/var/tmp', htmlfile )
-
-def download_html_file(emojiurl, emojifile):
-    """
-    Download the html file
-    """
-    url = requests.get(emojiurl)
-    htmltext = url.text
-
-    with open(emojifile, 'w') as outputfile:
-        outputfile.write(htmltext)
+TARGETFILE = os.path.join( '/var/tmp', HTMLFILE )
 
 def expandcode(codestring: str):
     """
@@ -38,9 +27,9 @@ def expandcode(codestring: str):
 
 def process_emoji(ename, codelist):
     """
-    Process the target name and code list
+    Process the target name as well as the code list
     """
-    convertlist = list()
+    convertlist = []
     for codeitem in codelist.split():
         ### converted = convertcode(codeitem)
         converted = expandcode(codeitem)
@@ -77,7 +66,7 @@ def process_html_file(emojifile):
     Parse the html file and extract the name and code point
     """
     print('\"{}\",\"{}\"'.format("emojiname", "emojicode"))
-    with open(emojifile) as emoji_html:
+    with open (emojifile, 'r', encoding="utf-8" ) as emoji_html:
         soup = bs4.BeautifulSoup(emoji_html, "html.parser")
         for row in soup.find_all('tr'):
             name = row.find('td', attrs={'class': 'name'})
@@ -98,8 +87,14 @@ def main():
     """
     Driver for downloading, processing, and outputing emoticons
     """
-    download_html_file(targeturl,targetfile)
-    process_html_file(targetfile)
+
+    url = requests.get(TARGETURL, timeout=15 )
+    htmltext = url.text
+
+    with open (TARGETFILE, 'w', encoding="utf-8" ) as outputfile:
+        outputfile.write(htmltext)
+
+    process_html_file(TARGETFILE)
 
 if __name__ == '__main__':
     main()

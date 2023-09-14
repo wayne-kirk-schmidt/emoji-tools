@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
+
+# pylint: disable=C0209
+
 """
 Converts an emoji into unicode string for display
 """
 
 import sys
 
-ename=sys.argv[1]
+ENAME=sys.argv[1]
 
-ecodelist=sys.argv[2:]
+ECODELIST=sys.argv[2:]
 
-convertlist = list()
+CONVERTLIST = []
 
-for ecode in ecodelist:
+for ecode in ECODELIST:
 
     ecode = ecode.replace('U+','')
 
@@ -21,14 +24,14 @@ for ecode in ecodelist:
         LEAD = LEAD.replace('0x', "\\u")
         TAIL = str(hex( (int(ecode, 16) & 1023 ) + 56320 ))
         TAIL = TAIL.replace('0x', "\\u")
-        conversion = LEAD + TAIL
+        CONVERSION = LEAD + TAIL
     else:
         LEAD = '\\' + 'u' + ecode
-        conversion = LEAD
+        CONVERSION = LEAD
 
-    convertlist.append(conversion)
+    CONVERTLIST.append(CONVERSION)
 
 SEPARATOR = ''
-CONVERTED = SEPARATOR.join(convertlist)
-print('NAME: {}\t CODELIST: {}'.format(ename, ecodelist))
-print('NAME: {}\t CONVERTED: {}'.format(ename, CONVERTED))
+CONVERTED = SEPARATOR.join(CONVERTLIST)
+print('NAME: {}\t CODELIST: {}'.format(ENAME, ECODELIST))
+print('NAME: {}\t CONVERTED: {}'.format(ENAME, CONVERTED))

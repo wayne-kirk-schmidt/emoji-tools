@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# pylint: disable=C0209
+
 """
 Exaplanation: emoji_lookup. Build the Emoji lookup file and publish to Sumo Logic
 
@@ -110,12 +112,12 @@ def run_sumo_cmdlet(source):
     the output of the action will provide a tuple of the orgid, objecttype, and id
     """
     target_object = "myfolders"
-    target_dict = dict()
+    target_dict = {}
     target_dict["orgid"] = SUMO_ORG
-    target_dict[target_object] = dict()
+    target_dict[target_object] = {}
 
     src_items = source.get_personal_folder()
-    target_dict[target_object]['id'] = dict()
+    target_dict[target_object]['id'] = {}
     target_dict[target_object]['id'].update({'parent' : SUMO_ORG})
     target_dict[target_object]['id'].update({'dump' : src_items})
     parent_id = target_dict['myfolders']['id']['dump']['id']
@@ -167,7 +169,7 @@ class SumoApiClient():
     The class includes the HTTP methods, cmdlets, and init methods
     """
 
-    def __init__(self, access_id, access_key, region, cookieFile='cookies.txt'):
+    def __init__(self, access_id, access_key, region, cookie_file='cookies.txt'):
         """
         Initializes the Sumo Logic object
         """
@@ -176,7 +178,7 @@ class SumoApiClient():
         self.session.headers = {'content-type': 'application/json', \
             'accept': 'application/json'}
         self.apipoint = 'https://api.' + region + '.sumologic.com/api'
-        cookiejar = http.cookiejar.FileCookieJar(cookieFile)
+        cookiejar = http.cookiejar.FileCookieJar(cookie_file)
         self.session.cookies = cookiejar
 
     def delete(self, method, params=None, headers=None, data=None):
@@ -258,7 +260,7 @@ class SumoApiClient():
         """
         headers = {'isAdminMode': str(adminmode)}
 
-        with open (SUMO_CFG, "rb") as jsonobject:
+        with open (SUMO_CFG, 'r', encoding="utf-8" ) as jsonobject:
             jsonpayload = json.load(jsonobject)
             jsonpayload['parentFolderId'] = parent_id
 
@@ -281,7 +283,7 @@ class SumoApiClient():
         populates a lookup file stub
         """
 
-        with open(csvfile, "rb") as fileobject:
+        with open (csvfile, 'r', encoding="utf-8" ) as fileobject:
             csvpayload = fileobject.read()
 
         files = { 'file' : ( csvfile, csvpayload ) }

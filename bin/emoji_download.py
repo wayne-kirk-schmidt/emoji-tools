@@ -1,37 +1,32 @@
 #!/usr/bin/env python3
 
+# pylint: disable=C0209
+
 """
 Downloads the emoji list
 """
 ### https://unicode.org/emoji/charts/full-emoji-list.html
 
 import os
-import sys
 import urllib.parse
 import requests
 
-### targeturl = sys.argv[1]
+TARGETURL = 'https://unicode.org/emoji/charts/full-emoji-list.html'
 
-targeturl = 'https://unicode.org/emoji/charts/full-emoji-list.html'
+HTMLFILE = os.path.basename(urllib.parse.urlsplit(TARGETURL).path)
 
-htmlfile = os.path.basename(urllib.parse.urlsplit(targeturl).path)
-targetfile = os.path.join( '/var/tmp', htmlfile )
-
-def download_html_file(emojiurl, emojifile):
-    """
-    Download the html file
-    """
-    url = requests.get(emojiurl)
-    htmltext = url.text
-
-    with open(emojifile, 'w') as outputfile:
-        outputfile.write(htmltext)
+TARGETFILE = os.path.join( '/var/tmp', HTMLFILE )
 
 def main():
     """
     Driver for downloading, processing, and outputing emoticons
     """
-    download_html_file(targeturl,targetfile)
+    url = requests.get(TARGETURL, timeout=15 )
+    htmltext = url.text
+
+    with open (TARGETFILE, 'w', encoding="utf-8" ) as outputfile:
+        outputfile.write(htmltext)
+
 
 if __name__ == '__main__':
     main()

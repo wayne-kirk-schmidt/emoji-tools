@@ -1,13 +1,16 @@
+# pylint: disable=C0209
+"""
+AWS Lambda function for downloading, processing, and uploading emojifiles into Sumo Logic
+"""
+
 import json
-import pprint
 import os
 import sys
-import argparse
 import configparser
 import http
-import requests
 import urllib.parse
 import string
+import requests
 import bs4
 sys.dont_write_bytecode = 1
 
@@ -45,7 +48,7 @@ if CONFIG.has_option("Default", "CSV_JSON"):
 
 TARGETURL = 'https://unicode.org/emoji/charts/full-emoji-list.html'
 HTMLFILE = os.path.join( '/tmp', os.path.basename(urllib.parse.urlsplit(TARGETURL).path) )
-CSV_LIST = list()
+CSV_LIST = []
 
 try:
 
@@ -61,7 +64,10 @@ except KeyError as myerror:
     print('Environment Variable Not Set :: {} '.format(myerror.args[0]))
 
 ### def main():
-def lambda_handler(event,context):
+def lambda_handler(_event,_context):
+    """
+    Lambda handler driver. An event and context can also be used to process results.
+    """
 
     source = SumoApiClient(SUMO_UID, SUMO_KEY, SUMO_END)
     download_html_file(TARGETURL,HTMLFILE)
@@ -69,9 +75,12 @@ def lambda_handler(event,context):
     run_sumo_cmdlet(source)
 
 def download_html_file(emojiurl, emojifile):
-    url = requests.get(emojiurl)
+    """
+    Download the file from the unicode.org site. This should be all of the registered emojis
+    """
+    url = requests.get(emojiurl, timeout=15 )
     htmltext = url.text
-    with open(emojifile, 'w') as outputfile:
+    with open(emojifile, 'w', encoding="utf-8" ) as outputfile:
         outputfile.write(htmltext)
 
 def expandcode(codestring: str):
@@ -84,7 +93,7 @@ def process_emoji(ename, codelist):
     """
     Process the target name and code list
     """
-    convertlist = list()
+    convertlist = []
     for codeitem in codelist.split():
         ### converted = convertcode(codeitem)
         converted = expandcode(codeitem)
@@ -96,6 +105,9 @@ def process_emoji(ename, codelist):
     CSV_LIST.append( '\"' + ename + '\"' + ',' + '\"' + codestring + '\"' )
 
 def convertcode(ecode):
+    """
+    This is the core of the algorithm for converting the file into appropriate strings for display
+    """
 
     ecode = ecode.replace('U+','')
     lead = '\\\\' + 'u' + ecode
@@ -117,7 +129,7 @@ def process_html_file(emojifile):
     Parse the html file and extract the name and code point
     """
     CSV_LIST.append( '\"emojiname\"' + ',' + '\"emojicode\"' )
-    with open(emojifile) as emoji_html:
+    with open(emojifile, 'r', encoding="utf-8") as emoji_html:
         soup = bs4.BeautifulSoup(emoji_html, "html.parser")
         for row in soup.find_all('tr'):
             name = row.find('td', attrs={'class': 'name'})
@@ -134,18 +146,21 @@ def process_html_file(emojifile):
             if name is not None:
                 process_emoji(emojiname, emojicode)
 
-    with open(CSV_FILE, "w") as outfile:
+    with open(CSV_FILE, 'w', encoding="utf-8") as outfile:
         outfile.write("\n".join(CSV_LIST))
 
 def run_sumo_cmdlet(source):
+    """
+    This will build within Sumo Logic the necessary files and folders
+    """
 
     target_object = "myfolders"
-    target_dict = dict()
+    target_dict = {}
     target_dict["orgid"] = SUMO_ORG
-    target_dict[target_object] = dict()
+    target_dict[target_object] = {}
 
     src_items = source.get_personal_folder()
-    target_dict[target_object]['id'] = dict()
+    target_dict[target_object]['id'] = {}
     target_dict[target_object]['id'].update({'parent' : SUMO_ORG})
     target_dict[target_object]['id'].update({'dump' : src_items})
     parent_id = target_dict['myfolders']['id']['dump']['id']
@@ -197,7 +212,7 @@ class SumoApiClient():
     The class includes the HTTP methods, cmdlets, and init methods
     """
 
-    def __init__(self, access_id, access_key, region, cookieFile='cookies.txt'):
+    def __init__(self, access_id, access_key, region, cookie_file='cookies.txt'):
         """
         Initializes the Sumo Logic object
         """
@@ -206,7 +221,7 @@ class SumoApiClient():
         self.session.headers = {'content-type': 'application/json', \
             'accept': 'application/json'}
         self.apipoint = 'https://api.' + region + '.sumologic.com/api'
-        cookiejar = http.cookiejar.FileCookieJar(cookieFile)
+        cookiejar = http.cookiejar.FileCookieJar(cookie_file)
         self.session.cookies = cookiejar
 
     def delete(self, method, params=None, headers=None, data=None):
@@ -285,7 +300,7 @@ class SumoApiClient():
         """
         headers = {'isAdminMode': str(adminmode)}
 
-        with open (CSV_JSON, "rb") as jsonobject:
+        with open (CSV_JSON, 'r', encoding="utf-8" ) as jsonobject:
             jsonpayload = json.load(jsonobject)
             jsonpayload['parentFolderId'] = parent_id
 
@@ -308,7 +323,7 @@ class SumoApiClient():
         populates a lookup file stub
         """
 
-        with open(csvfile, "rb") as fileobject:
+        with open(csvfile, 'r', encoding="utf-8" ) as fileobject:
             csvpayload = fileobject.read()
 
         files = { 'file' : ( csvfile, csvpayload ) }
