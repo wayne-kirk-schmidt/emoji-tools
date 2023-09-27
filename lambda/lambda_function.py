@@ -4,6 +4,7 @@ AWS Lambda function for downloading, processing, and uploading emojifiles into S
 """
 
 import json
+import re
 import os
 import sys
 import configparser
@@ -62,6 +63,21 @@ try:
 except KeyError as myerror:
 
     print('Environment Variable Not Set :: {} '.format(myerror.args[0]))
+
+SUMO_CSV_JSON = re.sub(r'%2e', '.', CSV_JSON, flags=re.IGNORECASE)
+SUMO_CSV_JSON = re.sub(r'%2f|%5c', '/', SUMO_CSV_JSON, flags=re.IGNORECASE)
+SUMO_CSV_JSON = SUMO_CSV_JSON.replace('../', '')
+
+if os.path.abspath(SUMO_CSV_JSON) != os.path.abspath(CSV_JSON):
+    sys.exit(1)
+
+
+SUMO_CSV_FILE = re.sub(r'%2e', '.', CSV_FILE, flags=re.IGNORECASE)
+SUMO_CSV_FILE = re.sub(r'%2f|%5c', '/', SUMO_CSV_FILE, flags=re.IGNORECASE)
+SUMO_CSV_FILE = SUMO_CSV_FILE.replace('../', '')
+
+if os.path.abspath(SUMO_CSV_FILE) != os.path.abspath(CSV_FILE):
+    sys.exit(1)
 
 ### def main():
 def lambda_handler(_event,_context):

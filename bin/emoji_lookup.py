@@ -27,6 +27,7 @@ __author__ = "Wayne Schmidt (wschmidt@sumologic.com)"
 ### beginning ###
 import json
 import pprint
+import re
 import os
 import sys
 import argparse
@@ -93,6 +94,20 @@ try:
 except KeyError as myerror:
 
     print('Environment Variable Not Set :: {} '.format(myerror.args[0]))
+
+SUMO_CFG_CHECK = re.sub(r'%2e', '.', SUMO_CFG, flags=re.IGNORECASE)
+SUMO_CFG_CHECK = re.sub(r'%2f|%5c', '/', SUMO_CFG_CHECK, flags=re.IGNORECASE)
+SUMO_CFG_CHECK = SUMO_CFG_CHECK.replace('../', '')
+
+if os.path.abspath(SUMO_CFG_CHECK) != os.path.abspath(SUMO_CFG):
+    sys.exit(1)
+
+SUMO_CSV_CHECK = re.sub(r'%2e', '.', SUMO_CSV, flags=re.IGNORECASE)
+SUMO_CSV_CHECK = re.sub(r'%2f|%5c', '/', SUMO_CSV_CHECK, flags=re.IGNORECASE)
+SUMO_CSV_CHECK = SUMO_CSV_CHECK.replace('../', '')
+
+if os.path.abspath(SUMO_CSV_CHECK) != os.path.abspath(SUMO_CSV):
+    sys.exit(1)
 
 PP = pprint.PrettyPrinter(indent=4)
 
