@@ -48,10 +48,6 @@ PARSER.add_argument("-e", metavar='<endpoint>', dest='MY_ENDPOINT', \
                     help="set endpoint (format: <endpoint>) ")
 PARSER.add_argument("-v", type=int, default=0, metavar='<verbose>', \
                     dest='verbose', help="Increase verbosity")
-PARSER.add_argument("-l", metavar='<lookupfile>', dest='MY_LOOKUP', \
-                    help="set path for lookup file")
-PARSER.add_argument("-j", metavar='<lookupcfg>', dest='MY_JSON', \
-                    help="set path for lookup config JSON file")
 
 ARGS = PARSER.parse_args()
 
@@ -71,15 +67,8 @@ if ARGS.MY_ENDPOINT:
 else:
     os.environ['SUMO_END'] = os.environ['SUMO_LOC']
 
-if ARGS.MY_LOOKUP:
-    os.environ['SUMO_CSV'] = ARGS.MY_LOOKUP
-else:
-    os.environ['SUMO_CSV'] = os.environ['SUMO_CSV']
-
-if ARGS.MY_JSON:
-    os.environ['SUMO_CFG'] = ARGS.MY_JSON
-else:
-    os.environ['SUMO_CFG'] = os.environ['SUMO_CFG']
+SUMO_FILE = '/tmp/emojilookup.csv'
+SUMO_JSON = '/tmp/emojilookup.json'
 
 try:
 
@@ -88,26 +77,10 @@ try:
     SUMO_LOC = os.environ['SUMO_LOC']
     SUMO_ORG = os.environ['SUMO_ORG']
     SUMO_END = os.environ['SUMO_END']
-    SUMO_CSV = os.environ['SUMO_CSV']
-    SUMO_CFG = os.environ['SUMO_CFG']
 
 except KeyError as myerror:
 
     print('Environment Variable Not Set :: {} '.format(myerror.args[0]))
-
-SUMO_CFG_CHECK = re.sub(r'%2e', '.', SUMO_CFG, flags=re.IGNORECASE)
-SUMO_CFG_CHECK = re.sub(r'%2f|%5c', '/', SUMO_CFG_CHECK, flags=re.IGNORECASE)
-SUMO_CFG_CHECK = SUMO_CFG_CHECK.replace('../', '')
-
-if os.path.abspath(SUMO_CFG_CHECK) != os.path.abspath(SUMO_CFG):
-    sys.exit(1)
-
-SUMO_CSV_CHECK = re.sub(r'%2e', '.', SUMO_CSV, flags=re.IGNORECASE)
-SUMO_CSV_CHECK = re.sub(r'%2f|%5c', '/', SUMO_CSV_CHECK, flags=re.IGNORECASE)
-SUMO_CSV_CHECK = SUMO_CSV_CHECK.replace('../', '')
-
-if os.path.abspath(SUMO_CSV_CHECK) != os.path.abspath(SUMO_CSV):
-    sys.exit(1)
 
 PP = pprint.PrettyPrinter(indent=4)
 
@@ -174,9 +147,9 @@ def run_sumo_cmdlet(source):
             print('Truncating: {} - {}'.format(result['id'], lookupfileid))
 
     source.session.headers = None
-    result = source.populate_lookup(lookupfileid, SUMO_CSV)
+    result = source.populate_lookup(lookupfileid, SUMO_FILE)
     if ARGS.verbose > 3:
-        print('Populating: {} - {}'.format(result['id'], SUMO_CSV))
+        print('Populating: {} - {}'.format(result['id'], SUMO_FILE))
 
 class SumoApiClient():
     """
@@ -275,7 +248,7 @@ class SumoApiClient():
         """
         headers = {'isAdminMode': str(adminmode)}
 
-        with open (SUMO_CFG, 'r', encoding="utf-8" ) as jsonobject:
+        with open (SUMO_JSON, 'r', encoding="utf-8" ) as jsonobject:
             jsonpayload = json.load(jsonobject)
             jsonpayload['parentFolderId'] = parent_id
 

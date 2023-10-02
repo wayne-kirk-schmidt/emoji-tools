@@ -1,6 +1,5 @@
-# pylint: disable=C0209
 """
-Exaplanation: lambda_function. This performs all functions within a AWS lamba function.
+Explanation: lambda_function. This performs all functions within a AWS lamba function.
 
 Usage:
    $ python  lambda_function
@@ -17,15 +16,9 @@ Style:
     @license-url    http://www.gnu.org/licenses/gpl.html
 """
 
-__version__ = 1.00
-__author__ = "Wayne Kirk Schmidt (wayne.kirk.schmidt@changeis.co.jp)"
-
-"""
-AWS Lambda function for downloading, processing, and uploading emojifiles into Sumo Logic
-"""
+# pylint: disable=C0209
 
 import json
-import re
 import os
 import sys
 import configparser
@@ -34,6 +27,10 @@ import urllib.parse
 import string
 import requests
 import bs4
+
+__version__ = 1.00
+__author__ = "Wayne Kirk Schmidt (wayne.kirk.schmidt@changeis.co.jp)"
+
 sys.dont_write_bytecode = 1
 
 VERBOSE = 0
@@ -60,17 +57,13 @@ if CONFIG.has_option("Default", "SUMO_END"):
     SUMO_END = CONFIG.get("Default", "SUMO_END")
     os.environ['SUMO_END'] = SUMO_END
 
-if CONFIG.has_option("Default", "CSV_FILE"):
-    CSV_FILE = CONFIG.get("Default", "CSV_FILE")
-    os.environ['CSV_FILE'] = CSV_FILE
-
-if CONFIG.has_option("Default", "CSV_JSON"):
-    CSV_JSON = CONFIG.get("Default", "CSV_JSON")
-    os.environ['CSV_JSON'] = CSV_JSON
-
 TARGETURL = 'https://unicode.org/emoji/charts/full-emoji-list.html'
 HTMLFILE = os.path.join( '/tmp', os.path.basename(urllib.parse.urlsplit(TARGETURL).path) )
 CSV_LIST = []
+
+CSV_FILE = '/tmp/emojilookup.csv'
+
+CSV_JSON = '/tmp/emojilookup.json'
 
 try:
 
@@ -78,27 +71,10 @@ try:
     SUMO_KEY = os.environ['SUMO_KEY']
     SUMO_ORG = os.environ['SUMO_ORG']
     SUMO_END = os.environ['SUMO_END']
-    CSV_FILE = os.environ['CSV_FILE']
-    CSV_JSON = os.environ['CSV_JSON']
 
 except KeyError as myerror:
 
     print('Environment Variable Not Set :: {} '.format(myerror.args[0]))
-
-SUMO_CSV_JSON = re.sub(r'%2e', '.', CSV_JSON, flags=re.IGNORECASE)
-SUMO_CSV_JSON = re.sub(r'%2f|%5c', '/', SUMO_CSV_JSON, flags=re.IGNORECASE)
-SUMO_CSV_JSON = SUMO_CSV_JSON.replace('../', '')
-
-if os.path.abspath(SUMO_CSV_JSON) != os.path.abspath(CSV_JSON):
-    sys.exit(1)
-
-
-SUMO_CSV_FILE = re.sub(r'%2e', '.', CSV_FILE, flags=re.IGNORECASE)
-SUMO_CSV_FILE = re.sub(r'%2f|%5c', '/', SUMO_CSV_FILE, flags=re.IGNORECASE)
-SUMO_CSV_FILE = SUMO_CSV_FILE.replace('../', '')
-
-if os.path.abspath(SUMO_CSV_FILE) != os.path.abspath(CSV_FILE):
-    sys.exit(1)
 
 ### def main():
 def lambda_handler(_event,_context):
