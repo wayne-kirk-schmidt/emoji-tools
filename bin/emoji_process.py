@@ -3,6 +3,27 @@
 # pylint: disable=C0209
 
 """
+Exaplanation: emoji_process. Process the downloaded emoji file into appropriate format
+
+Usage:
+   $ python  emoji_process  [ options ]
+
+Style:
+   Google Python Style Guide:
+   http://google.github.io/styleguide/pyguide.html
+
+    @name           emoji_process
+    @version        1.00
+    @author-name    Wayne Kirk Schmidt
+    @author-email   wayne.kirk.schmidt@changeis.co.jp
+    @license-name   GNU GPL
+    @license-url    http://www.gnu.org/licenses/gpl.html
+"""
+
+__version__ = 1.00
+__author__ = "Wayne Kirk Schmidt (wayne.kirk.schmidt@changeis.co.jp)"
+
+"""
 Downloads and processes the emoji list
 """
 

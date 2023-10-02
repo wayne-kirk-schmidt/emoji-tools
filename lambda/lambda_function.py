@@ -1,5 +1,26 @@
 # pylint: disable=C0209
 """
+Exaplanation: lambda_function. This performs all functions within a AWS lamba function.
+
+Usage:
+   $ python  lambda_function
+
+Style:
+   Google Python Style Guide:
+   http://google.github.io/styleguide/pyguide.html
+
+    @name           lambda_function
+    @version        1.00
+    @author-name    Wayne Kirk Schmidt
+    @author-email   wayne.kirk.schmidt@changeis.co.jp
+    @license-name   GNU GPL
+    @license-url    http://www.gnu.org/licenses/gpl.html
+"""
+
+__version__ = 1.00
+__author__ = "Wayne Kirk Schmidt (wayne.kirk.schmidt@changeis.co.jp)"
+
+"""
 AWS Lambda function for downloading, processing, and uploading emojifiles into Sumo Logic
 """
 

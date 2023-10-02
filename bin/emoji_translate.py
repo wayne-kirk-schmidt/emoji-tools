@@ -3,6 +3,27 @@
 # pylint: disable=C0209
 
 """
+Exaplanation: emoji_translate. Converts the emoji file sequential strings for processing
+
+Usage:
+   $ python  emoji_translate  [ options ]
+
+Style:
+   Google Python Style Guide:
+   http://google.github.io/styleguide/pyguide.html
+
+    @name           emoji_translate
+    @version        1.00
+    @author-name    Wayne Kirk Schmidt
+    @author-email   wayne.kirk.schmidt@changeis.co.jp
+    @license-name   GNU GPL
+    @license-url    http://www.gnu.org/licenses/gpl.html
+"""
+
+__version__ = 1.00
+__author__ = "Wayne Kirk Schmidt (wayne.kirk.schmidt@changeis.co.jp)"
+
+"""
 Converts an emoji into unicode string for display
 """
 

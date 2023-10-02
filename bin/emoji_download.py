@@ -3,8 +3,30 @@
 # pylint: disable=C0209
 
 """
+Exaplanation: emoji_download. Download the reference emoji file.
+
+Usage:
+   $ python  emoji_download  [ options ]
+
+Style:
+   Google Python Style Guide:
+   http://google.github.io/styleguide/pyguide.html
+
+    @name           emoji_download
+    @version        1.00
+    @author-name    Wayne Kirk Schmidt
+    @author-email   wayne.kirk.schmidt@changeis.co.jp
+    @license-name   GNU GPL
+    @license-url    http://www.gnu.org/licenses/gpl.html
+"""
+
+__version__ = 1.00
+__author__ = "Wayne Kirk Schmidt (wayne.kirk.schmidt@changeis.co.jp)"
+
+"""
 Downloads the emoji list
 """
+
 ### https://unicode.org/emoji/charts/full-emoji-list.html
 
 import os

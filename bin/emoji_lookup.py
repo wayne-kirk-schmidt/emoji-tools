@@ -15,14 +15,14 @@ Style:
 
     @name           emoji_lookup
     @version        1.00
-    @author-name    Wayne Schmidt
-    @author-email   wschmidt@sumologic.com
+    @author-name    Wayne Kirk Schmidt
+    @author-email   wayne.kirk.schmidt@changeis.co.jp
     @license-name   GNU GPL
     @license-url    http://www.gnu.org/licenses/gpl.html
 """
 
 __version__ = 1.00
-__author__ = "Wayne Schmidt (wschmidt@sumologic.com)"
+__author__ = "Wayne Kirk Schmidt (wayne.kirk.schmidt@changeis.co.jp)"
 
 ### beginning ###
 import json
@@ -37,7 +37,7 @@ sys.dont_write_bytecode = 1
 
 MY_CFG = 'undefined'
 PARSER = argparse.ArgumentParser(description="""
-query_folders is a Sumo Logic cli cmdlet retrieving information about folders
+emoji_lookup is a script to download the lookup file from the emoji registry
 """)
 
 PARSER.add_argument("-a", metavar='<secret>', dest='MY_SECRET', \
